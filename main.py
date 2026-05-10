@@ -4,7 +4,7 @@ from sklearn.cluster import KMeans, MiniBatchKMeans
 import matplotlib.pyplot as plt
 import streamlit as st
 
-st.title("Clustering major colours")
+st.title("Clustering Major Colours from Images")
 st.header("Please upload an image")
 # Uploading the image
 uploaded_file = st.file_uploader(
