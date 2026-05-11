@@ -1,8 +1,9 @@
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from sklearn.cluster import KMeans, MiniBatchKMeans
-import matplotlib.pyplot as plt
 import streamlit as st
+from sklearn.cluster import MiniBatchKMeans
+from PIL import Image
 
 st.title("Clustering Major Colours")
 st.header("Please upload an image")
@@ -24,6 +25,14 @@ if uploaded_file is not None:
     len, br, rgb = img.shape
 
 
+    if rgb >3:
+        img2 = Image.open(uploaded_file).convert("RGBA")
+        background = Image.new("RGBA", img2.size, (255, 255, 255, 255))
+        img2 = Image.alpha_composite(background, img2)
+        img = img2.convert("RGB")
+
+    else:
+        pass
 
     if st.button("Process Image", use_container_width=True):
         #Processing image
@@ -36,7 +45,7 @@ if uploaded_file is not None:
         labels = mini_batch_kmeans.labels_
         centers = mini_batch_kmeans.cluster_centers_
 
-        compressed_img = np.array(centers[labels], dtype = "uint8").reshape(len, br, rgb)
+        compressed_img = np.array(centers[labels], dtype = "uint8").reshape(len, br, 3)
         plt.imshow(compressed_img)
         st.image(compressed_img)
 
